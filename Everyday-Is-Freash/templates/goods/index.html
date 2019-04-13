@@ -1,0 +1,90 @@
+{% extends 'bases/base_good.html' %}
+
+
+
+{% block good %}
+
+    <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/static/js/slide.js"></script>
+
+	<div class="navbar_con">
+		<div class="navbar">
+			<h1 class="fl">全部商品分类</h1>
+			<ul class="navlist fl">
+				<li><a href="">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="center_con clearfix">
+		<ul class="subnav fl">
+			<li><a href="{% url 'goods:lists' %}?cid=1&number=1&showid=1" class="fruit">新鲜水果</a></li>
+			<li><a href="{% url 'goods:lists' %}?cid=2&number=1&showid=1" class="seafood">海鲜水产</a></li>
+			<li><a href="{% url 'goods:lists' %}?cid=3&number=1&showid=1" class="meet">猪牛羊肉</a></li>
+			<li><a href="{% url 'goods:lists' %}?cid=4&number=1&showid=1" class="egg">禽类蛋品</a></li>
+			<li><a href="{% url 'goods:lists' %}?cid=5&number=1&showid=1" class="vegetables">新鲜蔬菜</a></li>
+			<li><a href="{% url 'goods:lists' %}?cid=6&number=1&showid=1" class="ice">速冻食品</a></li>
+		</ul>
+		<div class="slide fl">
+			<ul class="slide_pics">
+				<li><img src="/static/images/slide.jpg" alt="幻灯片"></li>
+				<li><img src="/static/images/slide02.jpg" alt="幻灯片"></li>
+				<li><img src="/static/images/slide03.jpg" alt="幻灯片"></li>
+				<li><img src="/static/images/slide04.jpg" alt="幻灯片"></li>
+			</ul>
+			<div class="prev"></div>
+			<div class="next"></div>
+			<ul class="points"></ul>
+		</div>
+		<div class="adv fl">
+			<a href="#"><img src="/static/images/adv01.jpg"></a>
+			<a href="#"><img src="/static/images/adv02.jpg"></a>
+		</div>
+	</div>
+
+
+    {% for cag in cags %}
+
+
+	<div class="list_model">
+		<div class="list_title clearfix">
+			<h3 class="fl" id="model01">{{ cag.name }}</h3>
+			<div class="subtitle fl">
+				<span>|</span>
+
+                {% for new in cag.new_goods %}
+                    <a href="#">{{ new.name }}</a>
+                {% endfor %}
+
+			</div>
+			<a href="{% url 'goods:lists' %}?cid={{ cag.id }}&number=1&showid=1" class="goods_more fr" id="fruit_more">查看更多 ></a>
+		</div>
+
+		<div class="goods_con clearfix">
+			<div class="goods_banner fl"><img src="/static/images/banner0{{ forloop.counter }}.jpg"></div>
+			<ul class="goods_list fl">
+
+{#                {% for good in  cag.goods_set.all | slice:':4' %}#}
+                {% for good in cag.new_goods %}
+                    <li>
+                        <h4><a href="#">{{ good.name }}</a></h4>
+                        <a href="#"><img src="/static/{{ good.img }}"></a>
+                        <div class="prize">{{ good.price }}</div>
+				    </li>
+                {% endfor %}
+
+
+
+			</ul>
+		</div>
+	</div>
+
+
+    {% endfor %}
+
+{% endblock %}

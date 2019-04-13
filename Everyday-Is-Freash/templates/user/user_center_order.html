@@ -1,0 +1,88 @@
+{% extends 'bases/base_user.html'%}
+
+{% block user %}
+
+
+
+	<div class="main_con clearfix">
+		<div class="left_menu_con clearfix">
+			<h3>用户中心</h3>
+
+{#            相同内容 另外创建一个html页面 运用包含#}
+            {% include 'user/left_area.html' with flag='order' %}
+
+		</div>
+		<div class="right_content clearfix">
+				<h3 class="common_title2">全部订单</h3>
+
+            {% for order in orders %}
+
+
+				<ul class="order_list_th w978 clearfix">
+					<li class="col01">{{ order.c_time }}</li>
+					<li class="col02">订单号：{{ order.num }}</li>
+					<li class="col02 stress">
+                        {% if order.status == '1' %}
+                            未支付
+                        {% elif order.status == '2' %}
+                            待发货
+                        {% elif order.status == '3' %}
+                            已发货
+                        {% elif order.status == '4' %}
+                            已完成
+                        {% endif %}
+                    </li>
+				</ul>
+
+				<table class="order_list_table w980">
+					<tbody>
+						<tr>
+							<td width="55%">
+{#                            二次循环  遍历 order 中的信息 #}
+                                {% for detail in order.orderdetail_set.all %}
+
+
+                                    <ul class="order_goods_list clearfix">
+                                        <li class="col01"><img src="/static/{{ detail.good.img }}"></li>
+                                        <li class="col02">{{ detail.good.name }}<em>{{ detail.good.price }}元/{{ detail.good.unit }}g</em></li>
+                                        <li class="col03">{{ detail.num }}</li>
+                                        <li class="col04">{{ detail.xiaoji }}元</li>
+                                    </ul>
+
+                                {% endfor %}
+							</td>
+							<td width="15%">{{ order.zongjia }}元</td>
+							<td width="15%">待付款</td>
+							<td width="15%"><a href="#" class="oper_btn">去付款</a></td>
+						</tr>
+					</tbody>
+				</table>
+
+            {% endfor %}
+
+				<div class="pagenation">
+
+                    {% if current_page.has_previous %}
+
+                        <a href="{% url 'user:order' %}?page_id={{ current_page.previous_page_number }}"><上一页</a>
+
+                    {% endif %}
+
+                    {% for num in num_list %}
+
+					    <a href="{% url 'user:order' %}?page_id={{ num }}" class="active">{{ num }}</a>
+
+                    {% endfor %}
+
+                    {% if current_page.has_next %}
+
+                    <a href="{% url 'user:order' %}?page_id={{ current_page.next_page_number }}">下一页></a>
+
+                    {% endif %}
+				</div>
+		</div>
+	</div>
+
+
+
+{% endblock %}

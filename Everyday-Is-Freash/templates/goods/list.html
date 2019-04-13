@@ -1,0 +1,103 @@
+{% extends 'bases/base_good.html' %}
+
+{% block good %}
+
+
+	<div class="navbar_con">
+		<div class="navbar clearfix">
+			<div class="subnav_con fl">
+				<h1>全部商品分类</h1>	
+				<span></span>			
+				<ul class="subnav">
+					<li><a href="{% url 'goods:lists' %}?cid=1&number=1&showid=1" class="fruit">新鲜水果</a></li>
+                    <li><a href="{% url 'goods:lists' %}?cid=2&number=1&showid=1" class="seafood">海鲜水产</a></li>
+                    <li><a href="{% url 'goods:lists' %}?cid=3&number=1&showid=1" class="meet">猪牛羊肉</a></li>
+                    <li><a href="{% url 'goods:lists' %}?cid=4&number=1&showid=1" class="egg">禽类蛋品</a></li>
+                    <li><a href="{% url 'goods:lists' %}?cid=5&number=1&showid=1" class="vegetables">新鲜蔬菜</a></li>
+                    <li><a href="{% url 'goods:lists' %}?cid=6&number=1&showid=1" class="ice">速冻食品</a></li>
+				</ul>
+			</div>
+			<ul class="navlist fl">
+				<li><a href="">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="breadcrumb">
+		<a href="#">全部分类</a>
+		<span>></span>
+		<a href="#">{{ cag.name }}</a>
+	</div>
+
+	<div class="main_wrap clearfix">
+		<div class="l_wrap fl clearfix">
+			<div class="new_goods">
+				<h3>新品推荐</h3>
+				<ul>
+                    {% for goods in new_goods %}
+                       <li>
+                            <a href="#"><img src="/static/{{ goods.img }}"></a>
+                            <h4><a href="#">{{ goods.name }}</a></h4>
+                            <div class="prize">￥{{ goods.price }}</div>
+					    </li>
+                    {% endfor %}
+
+				</ul>
+			</div>
+		</div>
+
+		<div class="r_wrap fr clearfix">
+			<div class="sort_bar">
+{#				<a href="{% url 'goods:lists' %}?cid={{ cag_id }}&number=1&showid=1" class="active">默认</a>#}
+{#				<a href="{% url 'goods:lists' %}?cid={{ cag_id }}&number=1&showid=2">价格</a>#}
+{#				<a href="{% url 'goods:lists' %}?cid={{ cag_id }}&number=1&showid=3">人气</a>#}
+                {% include 'goods/list_aherf.html' %}
+			</div>
+
+			<ul class="goods_type_list clearfix">
+                
+                {% for good in current_page %}
+
+	            <li>
+
+					<a href="{% url 'goods:detail' %}?gid={{ good.id }}&cid={{ cag_id }}">
+                        <!--{{ good.id }}-->
+                        <img src="/static/{{ good.img }}">
+                    </a>
+
+					<h4><a href="detail.html">{{ good.name }}</a></h4>
+					<div class="operate">
+						<span class="prize">{{ good.price }}</span>
+						<span class="unit">{{ good.price }}/500g</span>
+						<a href="#" class="add_goods" title="加入购物车"></a>
+					</div>
+				</li>
+
+                {% endfor %}
+
+			</ul>
+
+			<div class="pagenation">
+			    {% if current_page.has_previous %}
+                    <a href="{% url 'goods:lists' %}?cid={{ cag_id }}&number={{ current_page.previous_page_number }}&showid={{ show_id }}">上一页</a>
+			    {% endif %}
+
+                {% for number in page_list %}
+                    <a href="{% url 'goods:lists' %}?cid={{ cag_id }}&number={{ number }}&showid={{ show_id }}">{{ number }}</a>
+                {% endfor %}
+
+                {% if current_page.has_next %}
+                    <a href="{% url 'goods:lists' %}?cid={{ cag_id }}&number={{ current_page.next_page_number }}&showid={{ show_id }}">下一页</a>
+			    {% endif %}
+
+
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}

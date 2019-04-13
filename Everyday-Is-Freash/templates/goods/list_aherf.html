@@ -1,0 +1,4 @@
+    <a href="{% url 'goods:lists' %}?cid={{ cag_id }}&number=1&showid=1" {% if show_id == '1' %}class="active"{% endif %} >默认</a>
+    <a href="{% url 'goods:lists' %}?cid={{ cag_id }}&number=1&showid=2" {% if show_id == '2' %}class="active"{% endif %} >价格</a>
+    <a href="{% url 'goods:lists' %}?cid={{ cag_id }}&number=1&showid=3" {% if show_id == '3' %}class="active"{% endif %} >人气</a>
+
